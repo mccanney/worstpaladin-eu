@@ -18,7 +18,7 @@ resource "aws_route53_zone" "worstpaladin_eu_zone" {
 # S3 bucket to hold static pages
 resource "aws_s3_bucket" "worstpaladin_eu_s3" {
     bucket = "worstpaladin.eu"
-    policy = "static\policy.json"
+    policy = "${file("static/policy.json")}"
     
     website {
         index_document = "index.html"
@@ -37,8 +37,8 @@ resource "aws_route53_record" "worstpaladin_eu_alias" {
     type    = "A"
 
     alias {
-        name                   = "${aws_s3_bucket.worstpaladin_eu_s3.dns_name}"
-        zone_id                = "${aws_s3_bucket.worstpaladin_eu_s3.zone_id}"
+        name                   = "${aws_s3_bucket.worstpaladin_eu_s3.bucket_domain_name}"
+        zone_id                = "${aws_s3_bucket.worstpaladin_eu_s3.hosted_zone_id}"
         evaluate_target_health = false
     }
 }
@@ -47,5 +47,5 @@ resource "aws_route53_record" "worstpaladin_eu_alias" {
 resource "aws_s3_bucket_object" "worstpaladin_eu_index" {
     bucket = "${aws_s3_bucket.worstpaladin_eu_s3.bucket}"
     key    = "index.html"
-    source = "static\index.html"
+    source = "${file("static/index.html")}"
 }
