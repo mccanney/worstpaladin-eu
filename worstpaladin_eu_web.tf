@@ -7,9 +7,8 @@ provider "aws" {
 # S3 bucket to hold static pages
 resource "aws_s3_bucket" "worstpaladin_eu_s3" {
     bucket = "worstpaladin.eu"
-    policy = <<EOF
-
-EOF
+    policy = ""
+    
     website {
         index_document = "index.html"
     }
