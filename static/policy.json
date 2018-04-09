@@ -8,7 +8,7 @@
           "s3:GetObject"
         ],
         "Effect": "Allow",
-        "Resource": "arn:aws:s3:::worstpaladin_eu_s3/*",
+        "Resource": "arn:aws:s3:::worstpaladin.eu/*",
         "Principal": "*"
       }
     ]

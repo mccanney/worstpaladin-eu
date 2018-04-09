@@ -37,7 +37,7 @@ resource "aws_route53_record" "worstpaladin_eu_alias" {
     type    = "A"
 
     alias {
-        name                   = "${aws_s3_bucket.worstpaladin_eu_s3.bucket_domain_name}"
+        name                   = "${aws_s3_bucket.worstpaladin_eu_s3.website_domain}"
         zone_id                = "${aws_s3_bucket.worstpaladin_eu_s3.hosted_zone_id}"
         evaluate_target_health = false
     }
@@ -47,5 +47,5 @@ resource "aws_route53_record" "worstpaladin_eu_alias" {
 resource "aws_s3_bucket_object" "worstpaladin_eu_index" {
     bucket = "${aws_s3_bucket.worstpaladin_eu_s3.bucket}"
     key    = "index.html"
-    source = "${file("static/index.html")}"
+    source = "static/index.html"
 }
