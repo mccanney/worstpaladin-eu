@@ -45,7 +45,8 @@ resource "aws_route53_record" "worstpaladin_eu_alias" {
 
 # Index file
 resource "aws_s3_bucket_object" "worstpaladin_eu_index" {
-    bucket = "${aws_s3_bucket.worstpaladin_eu_s3.bucket}"
-    key    = "index.html"
-    source = "static/index.html"
+    bucket       = "${aws_s3_bucket.worstpaladin_eu_s3.bucket}"
+    key          = "index.html"
+    source       = "static/index.html"
+    content_type = "text/html"
 }
