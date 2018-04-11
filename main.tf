@@ -1,13 +1,23 @@
 provider "aws" {
-  access_key = "${var.access_key}"
-  secret_key = "${var.secret_key}"
-  region     = "${var.aws_region}"
+  version = "~> 1.14"
+  region  = "${var.aws_region}"
+}
+
+# Terraform state files are saved in an S3 bucket
+terraform {
+  backend "s3" {
+    bucket  = "terraform-remote-state-bucket-s3"
+    key     = "worstpaladin-eu/terraform.tfstate"
+    region  = "eu-west-2"
+    encrypt = true
+  }
 }
 
 # Route53 DNS zone - worstpaladin.eu
 resource "aws_route53_zone" "worstpaladin_eu_zone" {
   name    = "worstpaladin.eu"
   comment = "Route53 DNS zone for worstpaladin.eu"
+  delegation_set_id = "${var.delegation_set}"
 
   tags {
       site        = "worstpaladin.eu"
