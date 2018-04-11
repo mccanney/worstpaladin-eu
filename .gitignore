@@ -1,4 +1,5 @@
 # Files and directories to ignore.
 .terraform/
-terraform.*
+*.tfstate
+*.backup
 .terraform.*
