@@ -7,6 +7,7 @@
 
 > -- John Milton, *Paradise Lost; Book I, lines 742-745*
 
+[![CircleCI](https://img.shields.io/circleci/project/github/tiguard/worstpaladin-eu.svg?style=flat-square)](https://circleci.com/gh/tiguard/worstpaladin-eu)
 [![GitHub release](https://img.shields.io/github/release/tiguard/worstpaladin-eu.svg?style=flat-square)](https://github.com/tiguard/worstpaladin-eu/releases)
 [![license](https://img.shields.io/github/license/tiguard/worstpaladin-eu.svg?style=flat-square)](https://github.com/tiguard/worstpaladin-eu/blob/master/LICENSE.md)
 [![Website](https://img.shields.io/website-up-down-green-red/http/google.co.uk.svg?label=worstpaladin.eu&style=flat-square)](http://worstpaladin.eu)
