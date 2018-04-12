@@ -13,4 +13,4 @@ jobs:
           command: unzip tflint_linux_amd64.zip
       - run:
           name: Lint the terraform code
-          command: tflint *.tf
+          command: ./tflint *.tf
