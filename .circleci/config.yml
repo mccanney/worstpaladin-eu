@@ -9,8 +9,20 @@ jobs:
           name: Download tflint
           command: wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
       - run:
-          name: unzip tflint
+          name: Unzip tflint
           command: unzip tflint_linux_amd64.zip
       - run:
           name: Lint the terraform code
           command: ./tflint *.tf
+      - run:
+          name: Download terraform
+          command: wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+      - run:
+          name: Unzip terraform
+          command: unzip terraform_0.11.7_linux_amd64.zip
+      - run:
+          name: Run terraform init
+          command: ./terraform init -input=false
+      - run:
+          name: Run terraform plan
+          command: ./terraform plan -out=tfplan -input=false
