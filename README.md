@@ -5,7 +5,7 @@
 > A summer's day; and with the setting sun\
 > Dropped from the zenith like a falling star.
 
-> -- John Milton, *Paradise Lost; Book I, lines 742-745*
+-- John Milton, *Paradise Lost; Book I, lines 742-745*
 
 [![CircleCI](https://circleci.com/gh/tiguard/worstpaladin-eu.svg?style=shield)](https://circleci.com/gh/tiguard/worstpaladin-eu)
 [![GitHub release](https://img.shields.io/github/release/tiguard/worstpaladin-eu.svg?style=flat-square)](https://github.com/tiguard/worstpaladin-eu/releases)
