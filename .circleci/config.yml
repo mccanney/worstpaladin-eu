@@ -16,7 +16,7 @@ jobs:
       - persist_to_workspace:
           root: .
           path:
-            - .
+            - tflint
   test:
     docker:
       - image: hashicorp/terraform:light
