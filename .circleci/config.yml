@@ -5,7 +5,7 @@ jobs:
       - image: hashicorp/terraform:light
     working_directory: ~/worstpaladin.eu
     steps:
-      - attach_workspace
+      - attach_workspace:
           at: ~/worstpaladin.eu
       - checkout
       - run:
@@ -21,7 +21,7 @@ jobs:
       - image: hashicorp/terraform:light
     working_directory: ~/worstpaladin.eu
     steps:
-      - attach_workspace
+      - attach_workspace:
           at: ~/worstpaladin.eu
       - run:
           name: Lint the terraform code
