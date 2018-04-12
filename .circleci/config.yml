@@ -14,7 +14,7 @@ jobs:
             wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
             unzip tflint_linux_amd64.zip
       - persist_to_workspace:
-          root: .
+          root: ~/worstpaladin.eu
           path: *
   test:
     docker:
