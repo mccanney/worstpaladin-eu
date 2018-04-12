@@ -3,14 +3,26 @@ jobs:
   build:
     docker:
       - image: hashicorp/terraform:light
+    working_directory: ~/worstpaladin.eu
     steps:
+      - attach_workspace
+          at: ~/worstpaladin.eu
       - checkout
       - run:
-          name: Download tflint
-          command: wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
-      - run:
-          name: Unzip tflint
-          command: unzip tflint_linux_amd64.zip
+          name: Download and install tflint
+          command: |
+            wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
+            unzip tflint_linux_amd64.zip
+      - persist_to_workspace:
+          root: .
+          path: .
+  test:
+    docker:
+      - image: hashicorp/terraform:light
+    working_directory: ~/worstpaladin.eu
+    steps:
+      - attach_workspace
+          at: ~/worstpaladin.eu
       - run:
           name: Lint the terraform code
           command: ./tflint --deep --aws-region eu-west-2
@@ -20,3 +32,11 @@ jobs:
       - run:
           name: Run terraform plan
           command: terraform plan -out=tfplan -input=false
+workflows:
+  version: 2
+    build_and_test:
+      jobs:
+        - build
+        - test:
+            requires:
+              - build
