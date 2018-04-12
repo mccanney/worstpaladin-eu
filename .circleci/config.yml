@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: Download tflint
+          command: wget https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_linux_amd64.zip
+      - run:
+          name: unzip tflint
+          command: unzip tflint_linux_amd64.zip
+      - run:
+          name: Lint the terraform code
+          command: tflint *.tf
