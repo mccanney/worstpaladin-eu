@@ -1,6 +1,14 @@
 variable "aws_region" {
-  default = "eu-west-2"
+    description = ""
+    default     = "eu-west-2"
 }
+
 variable "delegation_set" {
-  default = "N3PQX76GIB3TOA"
+    description = ""
+    default     = "N3PQX76GIB3TOA"
+}
+
+variable "domain" {
+    description = "The name of the domain to build."
+    default     = "worstpaladin.eu"
 }
