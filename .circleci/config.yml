@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: hashicorp/terraform:light
     steps:
@@ -19,8 +19,47 @@ jobs:
       - run:
           name: Run terraform plan
           command: terraform plan -out=tfplan -input=false
+      - persist_to_workspace:
+          root: .
+          paths:
+            - tfplan
+  deploy:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install dependencies
+          command: apk add --update py-pip bash
+      - run:
+          name: Install aws-cli
+          command: pip install awscli --upgrade --user
+      - run:
+          name: Deploy terraform code
+          command: |
+            terraform init -input=false
+            terraform apply tfplan
+      - run:
+          name: Update NS and SOA records
+          command: /bin/bash scripts/ns.sh
+      - run:
+          name: Update registrar NS records
+          command: /bin/bash scripts/reg.sh
 workflows:
   version: 2
-  build_and_test:
+  test_and_deploy:
     jobs:
-      - build
+      - test:
+          filters:
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v[0-9]\.[0-9]\.[0-9]$/
+            branches:
+              ignore: /.*/

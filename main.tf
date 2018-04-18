@@ -29,6 +29,7 @@ resource "aws_s3_bucket" "web" {
     
     website {
         index_document = "index.html"
+        error_document = "error.html"
     }
 
     tags {
@@ -53,5 +54,12 @@ resource "aws_s3_bucket_object" "index" {
     bucket       = "${aws_s3_bucket.web.bucket}"
     key          = "index.html"
     source       = "static/index.html"
+    content_type = "text/html"
+}
+
+resource "aws_s3_bucket_object" "error" {
+    bucket       = "${aws_s3_bucket.web.bucket}"
+    key          = "error.html"
+    source       = "static/error.html"
     content_type = "text/html"
 }
