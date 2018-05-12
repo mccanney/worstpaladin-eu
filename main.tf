@@ -3,6 +3,10 @@ provider "aws" {
     region  = "${var.aws_region}"
 }
 
+provider "template" {
+    version = "~> 1.0"
+}
+
 terraform {
     backend "s3" {
         bucket  = "terraform-remote-state-bucket-s3"
@@ -10,6 +14,21 @@ terraform {
         region  = "eu-west-2"
         encrypt = true
     }
+}
+
+data "template_file" "bucket_policy" {
+    template = "${file("policies/bucket-policy.json")}"
+
+    vars {
+      domain = "${var.domain}"
+    }
+}
+
+locals {
+    html_files = [
+        "index.html",
+        "error.html"
+    ]
 }
 
 resource "aws_route53_zone" "zone" {
@@ -25,11 +44,11 @@ resource "aws_route53_zone" "zone" {
 
 resource "aws_s3_bucket" "web" {
     bucket = "${var.domain}"
-    policy = "${file("static/policy.json")}"
-    
+    policy = "${data.template_file.bucket_policy.rendered}"
+
     website {
-        index_document = "index.html"
-        error_document = "error.html"
+        index_document = "${local.html_files[0]}"
+        error_document = "${local.html_files[1]}"
     }
 
     tags {
@@ -50,16 +69,10 @@ resource "aws_route53_record" "alias" {
     }
 }
 
-resource "aws_s3_bucket_object" "index" {
+resource "aws_s3_bucket_object" "files" {
+    count        = "${length(local.html_files)}"
     bucket       = "${aws_s3_bucket.web.bucket}"
-    key          = "index.html"
-    source       = "static/index.html"
-    content_type = "text/html"
-}
-
-resource "aws_s3_bucket_object" "error" {
-    bucket       = "${aws_s3_bucket.web.bucket}"
-    key          = "error.html"
-    source       = "static/error.html"
+    key          = "${local.html_files[count.index]}"
+    source       = "${format("html/%s", local.html_files[count.index])}"
     content_type = "text/html"
 }

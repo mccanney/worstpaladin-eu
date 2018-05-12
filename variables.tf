@@ -1,10 +1,10 @@
 variable "aws_region" {
-    description = ""
+    description = "The AWS region to create the infrastructure in."
     default     = "eu-west-2"
 }
 
 variable "delegation_set" {
-    description = ""
+    description = "The pre-created DNS server delegation set."
     default     = "N3PQX76GIB3TOA"
 }
 
