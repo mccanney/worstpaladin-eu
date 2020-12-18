@@ -5,7 +5,7 @@
 > A summer's day; and with the setting sun\
 > Dropped from the zenith like a falling star.
 
--- John Milton, *Paradise Lost; Book I, lines 742-745*
+-- John Milton, _Paradise Lost; Book I, lines 742-745_
 
 [![CircleCI](https://circleci.com/gh/mccanney/worstpaladin-eu.svg?style=shield)](https://circleci.com/gh/mccanney/worstpaladin-eu)
 [![GitHub release](https://img.shields.io/github/release/mccanney/worstpaladin-eu.svg?style=flat-square)](https://github.com/mccanney/worstpaladin-eu/releases)
@@ -16,12 +16,12 @@ A web application which uses the power of distributed processing and machine lea
 
 ## How does it work?
 
-Accessing the site http://worstpaladin.eu will instanteously analysis every level 1 to 120 Paladin-class character on Blizzard's EU World of Warcraft servers.  Over 10,000 data points will be examined and the details of the worst character returned.
+Accessing the site http://worstpaladin.eu will instanteously analysis every level 1 to 60 Paladin-class character on Blizzard's EU World of Warcraft servers. Over 10,000 data points will be examined and the details of the worst character returned.
 
 ## Dependencies
 
-* [Terraform](https://github.com/hashicorp/terraform)
-* [AWS CLI](https://github.com/aws/aws-cli)
+- [Terraform](https://github.com/hashicorp/terraform)
+- [AWS CLI](https://github.com/aws/aws-cli)
 
 ## Contributing
 
