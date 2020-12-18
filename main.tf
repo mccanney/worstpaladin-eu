@@ -18,68 +18,18 @@ provider "aws" {
     region = var.aws_region
 }
 
-locals {
-    htmlFiles = [
-        "index.html",
-        "error.html"
-    ]
-    provisionedDate = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+module "dns" {
+    source = "./modules/dns"
+
+    domain         = var.domain
+    delegation_set = var.delegation_set
+    hosted_zone_id = module.s3.hosted_zone_id
+    website_domain = module.s3.website_domain
 }
 
-resource "aws_route53_zone" "zone" {
-    name              = var.domain
-    comment           = "Route53 DNS zone for ${var.domain}"
-    delegation_set_id = var.delegation_set
+module "s3" {
+    source = "./modules/s3"
 
-    tags = {
-        provisionedBy = "Terraform"
-        provisionedOn = local.provisionedDate
-    }
-
-    lifecycle {
-        ignore_changes = [
-            tags["provisionedOn"]
-        ]
-    }
-}
-
-resource "aws_s3_bucket" "web" {
-    bucket = var.domain
-    policy = templatefile("policies/bucket-policy.json", { domain = var.domain })
-
-    website {
-        index_document = local.htmlFiles[0]
-        error_document = local.htmlFiles[1]
-    }
-
-    tags = {
-        provisionedBy = "Terraform"
-        provisionedOn = local.provisionedDate
-    }
-
-    lifecycle {
-        ignore_changes = [
-            tags["provisionedOn"]
-        ]
-    }
-}
-
-resource "aws_route53_record" "alias" {
-    zone_id = aws_route53_zone.zone.zone_id
-    name    = var.domain
-    type    = "A"
-
-    alias {
-        name                   = aws_s3_bucket.web.website_domain
-        zone_id                = aws_s3_bucket.web.hosted_zone_id
-        evaluate_target_health = false
-    }
-}
-
-resource "aws_s3_bucket_object" "files" {
-    count        = length(local.htmlFiles)
-    bucket       = aws_s3_bucket.web.bucket
-    key          = local.htmlFiles[count.index]
-    source       = format("html/%s", local.htmlFiles[count.index])
-    content_type = "text/html"
+    domain = var.domain
+    
 }
