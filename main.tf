@@ -4,7 +4,7 @@ terraform {
             source = "hashicorp/aws"
         }
   }
-    required_version = ">= 0.13"
+    required_version = ">= 0.14"
 
     backend "s3" {
         bucket  = "terraform-remote-state-bucket-s3"
@@ -19,10 +19,11 @@ provider "aws" {
 }
 
 locals {
-    html_files = [
+    htmlFiles = [
         "index.html",
         "error.html"
     ]
+    provisionedDate = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
 }
 
 resource "aws_route53_zone" "zone" {
@@ -31,8 +32,14 @@ resource "aws_route53_zone" "zone" {
     delegation_set_id = var.delegation_set
 
     tags = {
-        site        = var.domain
-        environment = "production"
+        provisionedBy = "Terraform"
+        provisionedOn = local.provisionedDate
+    }
+
+    lifecycle {
+        ignore_changes = [
+            tags["provisionedOn"]
+        ]
     }
 }
 
@@ -41,13 +48,19 @@ resource "aws_s3_bucket" "web" {
     policy = templatefile("policies/bucket-policy.json", { domain = var.domain })
 
     website {
-        index_document = local.html_files[0]
-        error_document = local.html_files[1]
+        index_document = local.htmlFiles[0]
+        error_document = local.htmlFiles[1]
     }
 
     tags = {
-        site        = var.domain
-        environment = "production"
+        provisionedBy = "Terraform"
+        provisionedOn = local.provisionedDate
+    }
+
+    lifecycle {
+        ignore_changes = [
+            tags["provisionedOn"]
+        ]
     }
 }
 
@@ -64,9 +77,9 @@ resource "aws_route53_record" "alias" {
 }
 
 resource "aws_s3_bucket_object" "files" {
-    count        = length(local.html_files)
+    count        = length(local.htmlFiles)
     bucket       = aws_s3_bucket.web.bucket
-    key          = local.html_files[count.index]
-    source       = format("html/%s", local.html_files[count.index])
+    key          = local.htmlFiles[count.index]
+    source       = format("html/%s", local.htmlFiles[count.index])
     content_type = "text/html"
 }
