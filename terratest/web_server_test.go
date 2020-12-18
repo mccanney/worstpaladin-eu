@@ -22,16 +22,16 @@ func TestWebServer(t *testing.T) {
 	http_helper.HttpGetWithCustomValidation(t, "http://worstpaladin.eu", nil, func(statusCode int, body string) bool {
 		if statusCode == 200 && strings.Contains(body, "worldofwarcraft.com/en-gb/character/argent-dawn/tebin") {
 			return true
-		} else {
-			return false
 		}
+
+		return false
 	})
 
 	http_helper.HttpGetWithCustomValidation(t, "http://worstpaladin.eu/wrong.html", nil, func(statusCode int, body string) bool {
 		if statusCode == 404 && strings.Contains(body, "Something went wrong.  Sorry.") {
 			return true
-		} else {
-			return false
 		}
+
+		return false
 	})
 }
