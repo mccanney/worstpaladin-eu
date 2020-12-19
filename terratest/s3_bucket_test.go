@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
+	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
@@ -45,8 +46,20 @@ func TestS3Bucket(t *testing.T) {
 
 	/*
 		Web bucket tests
-		Check the bucket exists and that a 200 and 404 HTTP status code is returned
+		Check the bucket exists and that a 200 HTTP status code is returned when accessing it.
 	*/
+	webBucketName := terraform.Output(t, terraformOptions, "web_bucket_id")
+	s3DomainName := terraform.Output(t, terraformOptions, "website_domain")
+	s3BucketFQDN := fmt.Sprintf("http://%s.%s", webBucketName, s3DomainName)
+
+	aws.AssertS3BucketExists(t, awsRegion, webBucketName)
+	http_helper.HttpGetWithCustomValidation(t, s3BucketFQDN, nil, func(statusCode int, body string) bool {
+		if statusCode == 200 && strings.Contains(body, "worldofwarcraft.com/en-gb/character/argent-dawn/tebin") {
+			return true
+		}
+
+		return false
+	})
 
 	/*
 		Lamdba bucket tests
