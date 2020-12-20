@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 module "dns" {
-    source = "./modules/dns"
+    source = "../modules/dns"
 
     domain         = var.domain
     delegation_set = var.delegation_set
@@ -28,7 +28,7 @@ module "dns" {
 }
 
 module "s3" {
-    source = "./modules/s3"
+    source = "../modules/s3"
 
     domain = var.domain
     
