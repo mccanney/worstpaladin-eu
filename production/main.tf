@@ -8,7 +8,7 @@ terraform {
 
     backend "s3" {
         bucket  = "terraform-remote-state-bucket-s3"
-        key     = "worstpaladin-eu/terraform.tfstate"
+        key     = "worstpaladin-eu/production/terraform.tfstate"
         region  = "eu-west-2"
         encrypt = true
     }
@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 module "dns" {
-    source = "./modules/dns"
+    source = "../modules/dns"
 
     domain         = var.domain
     delegation_set = var.delegation_set
@@ -28,7 +28,7 @@ module "dns" {
 }
 
 module "s3" {
-    source = "./modules/s3"
+    source = "../modules/s3"
 
     domain = var.domain
     
