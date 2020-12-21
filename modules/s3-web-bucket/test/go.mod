@@ -1,4 +1,4 @@
-module github.com/mccanney/worstpaladin-eu-modules/s3-web-bucket
+module github.com/mccanney/worstpaladin-eu-modules/modules/s3-web-bucket
 
 go 1.15
 

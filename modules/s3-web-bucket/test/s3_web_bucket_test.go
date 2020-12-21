@@ -15,7 +15,7 @@ import (
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
-func TestS3WebBucket(t *testing.T) {
+func TestUT_S3WebBucket(t *testing.T) {
 	t.Parallel()
 
 	// Don't neccessarily want to use _every_ region - those in the EU will be fine.
@@ -28,7 +28,7 @@ func TestS3WebBucket(t *testing.T) {
 		"eu-west-3",
 	}
 	awsRegion := aws.GetRandomStableRegion(t, possibleRegions, nil)
-	bucketName := fmt.Sprintf("s3-web-bucket-%s", strings.ToLower(random.UniqueId()))
+	bucketName := fmt.Sprintf("s3-web-bucket-test-%s", strings.ToLower(random.UniqueId()))
 	envTag := "Automated Testing"
 	workingDir := ".."
 

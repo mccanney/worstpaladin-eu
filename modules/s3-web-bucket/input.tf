@@ -16,7 +16,7 @@ variable "error_file" {
 }
 
 variable "environment" {
-  type         = string
-  description  = "The name of the current environment"
-  default      = "Development"
+  type        = string
+  description = "The name of the current environment"
+  default     = "Development"
 }
