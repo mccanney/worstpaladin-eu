@@ -112,7 +112,6 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 		if statusCode == 200 && strings.Contains(htmlBody, "This is a test site.") {
 			return true
 		}
-
 		return false
 	})
 
@@ -123,7 +122,6 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 		if statusCode == 404 && strings.Contains(htmlBody, "Something went wrong.  Sorry.") {
 			return true
 		}
-
 		return false
 	})
 
