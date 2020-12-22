@@ -21,6 +21,13 @@
 
 Accessing the site http://worstpaladin.eu will instanteously analysis every level 1 to 60 Paladin-class character on Blizzard's EU World of Warcraft servers. Over 10,000 data points will be examined and the details of the worst character returned.
 
+## Building
+
+The project must be built in the following order:
+
+1. The `s3` module.
+2. The `dns` module.
+
 ## Author
 
 👤 **David McCanney**
