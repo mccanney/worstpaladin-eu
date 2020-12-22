@@ -18,7 +18,7 @@ import (
 func TestUT_S3WebBucket(t *testing.T) {
 	t.Parallel()
 
-	// Don't neccessarily want to use _every_ region - those in the EU will be fine.
+	// We don't neccessarily want to use _every_ region - those in the EU will be fine
 	possibleRegions := []string{
 		"eu-central-1",
 		"eu-north-1",
@@ -105,9 +105,7 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 	indexPage := fmt.Sprintf("http://%s.%s", bucketName, s3DomainName)
 	errorPage := fmt.Sprintf("%s/wrong.html", indexPage)
 
-	/*
-		Does the bucket serve the index page correctly with the correct HTTP status code?
-	*/
+	// Does the bucket serve the index page correctly with the correct HTTP status code?
 	http_helper.HttpGetWithCustomValidation(t, indexPage, nil, func(statusCode int, htmlBody string) bool {
 		if statusCode == 200 && strings.Contains(htmlBody, "This is a test site.") {
 			return true
@@ -115,9 +113,7 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 		return false
 	})
 
-	/*
-		Does the bucket serve the 404 page correctly with the correct HTTP status code?
-	*/
+	// Does the bucket serve the 404 page correctly with the correct HTTP status code?
 	http_helper.HttpGetWithCustomValidation(t, errorPage, nil, func(statusCode int, htmlBody string) bool {
 		if statusCode == 404 && strings.Contains(htmlBody, "Something went wrong.  Sorry.") {
 			return true
@@ -125,9 +121,7 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 		return false
 	})
 
-	/*
-		We need to empty the bucket after testing or the destroy will fail
-	*/
+	// We need to empty the bucket after testing or the destroy will fail
 	aws.EmptyS3Bucket(t, awsRegion, bucketName)
 }
 

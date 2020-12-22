@@ -14,7 +14,7 @@ import (
 func TestUT_S3Bucket(t *testing.T) {
 	t.Parallel()
 
-	// Don't neccessarily want to use _every_ region - those in the EU will be fine.
+	// We don't neccessarily want to use _every_ region - those in the EU will be fine
 	possibleRegions := []string{
 		"eu-central-1",
 		"eu-north-1",
