@@ -1,32 +1,53 @@
-# worstpaladin.eu
+<h1 align="center">Welcome to worstpaladin-eu 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.5.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/mccanney/worstpaladin-eu/blob/master/LICENSE.md" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
+
+> A web application which uses the power of distributed processing and machine learning to carefully determine which World of Warcraft Paladin is the worst in the EU.
+
+### 🏠 [Homepage](http://worstpaladin.eu)
 
 > From morn\
 > To noon he fell, from noon to dewy eve,\
 > A summer's day; and with the setting sun\
 > Dropped from the zenith like a falling star.
 
--- John Milton, *Paradise Lost; Book I, lines 742-745*
-
-[![CircleCI](https://circleci.com/gh/mccanney/worstpaladin-eu.svg?style=shield)](https://circleci.com/gh/mccanney/worstpaladin-eu)
-[![GitHub release](https://img.shields.io/github/release/mccanney/worstpaladin-eu.svg?style=flat-square)](https://github.com/mccanney/worstpaladin-eu/releases)
-[![license](https://img.shields.io/github/license/mccanney/worstpaladin-eu.svg?style=flat-square)](https://github.com/mccanney/worstpaladin-eu/blob/master/LICENSE.md)
-[![Website](https://img.shields.io/website-up-down-green-red/http/worstpaladin.eu.svg?label=worstpaladin.eu&style=flat-square)](http://worstpaladin.eu)
-
-A web application which uses the power of distributed processing and machine learning to carefully determine which World of Warcraft Paladin is the worst in the EU.
+-- John Milton, _Paradise Lost; Book I, lines 742-745_
 
 ## How does it work?
 
-Accessing the site http://worstpaladin.eu will instanteously analysis every level 1 to 120 Paladin-class character on Blizzard's EU World of Warcraft servers.  Over 10,000 data points will be examined and the details of the worst character returned.
+Accessing the site http://worstpaladin.eu will instanteously analysis every level 1 to 60 Paladin-class character on Blizzard's EU World of Warcraft servers. Over 10,000 data points will be examined and the details of the worst character returned.
 
-## Dependencies
+## Building
 
-* [Terraform](https://github.com/hashicorp/terraform)
-* [AWS CLI](https://github.com/aws/aws-cli)
+The project must be built in the following order:
 
-## Contributing
+1. The `s3` module.
+2. The `dns` module.
 
-Please use the [issue tracker](https://github.com/mccanney/worstpaladin-eu/issues) to file any bug reports or make feature requests.
+## Author
 
-## License
+👤 **David McCanney**
 
-Released under the [MIT license](LICENSE.md).
+- Website: https://www.mccanney.io
+- Github: [@mccanney](https://github.com/mccanney)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/mccanney/worstpaladin-eu/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+Copyright © 2020 [David McCanney](https://github.com/mccanney).<br />
+This project is [MIT](https://github.com/mccanney/worstpaladin-eu/blob/master/LICENSE.md) licensed.
+
+---
+
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

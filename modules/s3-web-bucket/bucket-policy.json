@@ -8,7 +8,7 @@
           "s3:GetObject"
         ],
         "Effect": "Allow",
-        "Resource": "arn:aws:s3:::${domain}/*",
+        "Resource": "arn:aws:s3:::${bucket_name}/*",
         "Principal": "*"
       }
     ]
