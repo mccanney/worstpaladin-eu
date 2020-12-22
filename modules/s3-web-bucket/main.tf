@@ -10,6 +10,11 @@ terraform {
 
 locals {
   provisionedDate = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
+
+  htmlFiles = [
+    "index.html",
+    "error.html"
+  ]
 }
 
 resource "aws_s3_bucket" "web" {
@@ -32,4 +37,12 @@ resource "aws_s3_bucket" "web" {
       tags["provisionedOn"]
     ]
   }
+}
+
+resource "aws_s3_bucket_object" "files" {
+  count        = length(local.htmlFiles)
+  bucket       = aws_s3_bucket.web.id
+  key          = local.htmlFiles[count.index]
+  source       = format("html/%s", local.htmlFiles[count.index])
+  content_type = "text/html"
 }
