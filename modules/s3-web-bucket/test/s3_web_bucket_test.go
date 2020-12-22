@@ -2,14 +2,11 @@ package test
 
 import (
 	"fmt"
-	"io"
 	"strings"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/gruntwork-io/terratest/modules/aws"
 	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
-	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
@@ -45,18 +42,20 @@ func TestUT_S3WebBucket(t *testing.T) {
 
 	})
 
-	test_structure.RunTestStage(t, "create_test_files", func() {
-		indexFile := strings.NewReader("<!DOCTYPE html><html><head><title>Test site</title></head><body>This is a test site.</body></html>")
-		errorFile := strings.NewReader("<!DOCTYPE html><html><head><title>Test site</title></head><body>Something went wrong.  Sorry.</body></html>")
+	/*
+		test_structure.RunTestStage(t, "create_test_files", func() {
+			indexFile := strings.NewReader("<!DOCTYPE html><html><head><title>Test site</title></head><body>This is a test site.</body></html>")
+			errorFile := strings.NewReader("<!DOCTYPE html><html><head><title>Test site</title></head><body>Something went wrong.  Sorry.</body></html>")
 
-		var files = map[string]io.Reader{
-			"index.html": indexFile,
-			"error.html": errorFile,
-		}
-		for name, contents := range files {
-			uploadS3File(t, awsRegion, bucketName, contents, name)
-		}
-	})
+			var files = map[string]io.Reader{
+				"index.html": indexFile,
+				"error.html": errorFile,
+			}
+			for name, contents := range files {
+				uploadS3File(t, awsRegion, bucketName, contents, name)
+			}
+		})
+	*/
 
 	test_structure.RunTestStage(t, "web_site_check", func() {
 		checkWebBucket(t, awsRegion, bucketName, workingDir)
@@ -80,6 +79,7 @@ func deployWithTerraform(t *testing.T, awsRegion string, bucketName string, envT
 	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 }
 
+/*
 func uploadS3File(t *testing.T, awsRegion string, bucketName string, fileContents io.Reader, fileKey string) {
 	upParams := &s3manager.UploadInput{
 		Bucket: &bucketName,
@@ -93,6 +93,7 @@ func uploadS3File(t *testing.T, awsRegion string, bucketName string, fileContent
 		logger.Log(t, err)
 	}
 }
+*/
 
 func checkS3Bucket(t *testing.T, awsRegion string, bucketName string) {
 	aws.AssertS3BucketExists(t, awsRegion, bucketName)
@@ -107,7 +108,7 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 
 	// Does the bucket serve the index page correctly with the correct HTTP status code?
 	http_helper.HttpGetWithCustomValidation(t, indexPage, nil, func(statusCode int, htmlBody string) bool {
-		if statusCode == 200 && strings.Contains(htmlBody, "This is a test site.") {
+		if statusCode == 200 && strings.Contains(htmlBody, "worldofwarcraft.com/en-gb/character/argent-dawn/tebin") {
 			return true
 		}
 		return false
@@ -122,7 +123,7 @@ func checkWebBucket(t *testing.T, awsRegion string, bucketName string, workingDi
 	})
 
 	// We need to empty the bucket after testing or the destroy will fail
-	aws.EmptyS3Bucket(t, awsRegion, bucketName)
+	//aws.EmptyS3Bucket(t, awsRegion, bucketName)
 }
 
 func destroyTerraform(t *testing.T, workingDir string) {
